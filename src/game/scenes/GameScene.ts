@@ -12,6 +12,7 @@ export default class GameScene extends Phaser.Scene {
     scoredNotes: Record<number, boolean> | null;
     score: Phaser.GameObjects.Text | null;
     currentTime: number | null;
+
     constructor() {
         super("game");
         this.video = null;
@@ -85,22 +86,23 @@ export default class GameScene extends Phaser.Scene {
 
 
     update(time: number, delta: number) {
-        if (this.spacePressed && this.spacePressed.isDown && this.startTime === null) {
+        if ((this.spacePressed && this.spacePressed.isDown ||
+            this.input.activePointer.isDown) && this.startTime === null) {
             if (this.video) {
                 this.startTime = time;
                 this.currentNotes = this.cache.json.get('beats');
                 this.scoredNotes = {};
-                this.spacePressed.reset();
+                if (this.spacePressed !== null) this.spacePressed.reset();
                 if (this.score !== null) this.score.setText("0");
-                this.video.play();
+                this.video.play()
             }
         }
 
-        if (this.startTime === null || this.currentNotes === null || this.actionGraphics === null || this.spacePressed == null || this.score === null) {
+        if (this.startTime === null || this.currentNotes === null || this.actionGraphics === null || this.spacePressed == null || this.score === null || this.video == null) {
             return;
         }
 
-        const currentTime = (time - this.startTime) / 1000;
+        const currentTime = this.video.getCurrentTime();
         this.currentTime = currentTime;
         const notes: Array<number> = []
         for (var i = 0; i < this.currentNotes.length; i++) {
@@ -146,9 +148,11 @@ export default class GameScene extends Phaser.Scene {
             width - ((width - 20) / 2 - (renderedNoteInterval - GameScene.noteEnd) * ((width - 20) / 2) / renderedNoteInterval),
             height / 2 + (renderedNoteInterval - GameScene.noteEnd) * (height / 2) / renderedNoteInterval);
 
-        if (this.spacePressed.isDown) {
+        console.log(this.input.activePointer.downTime)
+        if (this.spacePressed.isDown || (this.input.activePointer.isDown &&
+            this.input.activePointer.getDuration() < delta)) {
             this.calculateScore();
-            this.spacePressed.reset();
+            if (this.spacePressed) this.spacePressed.reset();
         }
     }
 }
