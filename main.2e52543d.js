@@ -27,4 +27,4 @@ var t,e=require("process"),i=arguments[3];!function(e,i){"object"==typeof export
 },{"react":"n8MK"}],"Pu5h":[function(require,module,exports) {
 "use strict";var e=n(require("phaser")),r=n(require("./scenes/GameScene")),t=require("react-dom"),u=n(require("react")),a=n(require("../ui/components/App"));function n(e){return e&&e.__esModule?e:{default:e}}var d={parent:"root",width:800,height:600,zoom:1,scale:{mode:e.default.Scale.FIT},scene:[r.default]},l=new e.default.Game(d);(0,t.render)(u.default.createElement(a.default,null),document.getElementById("root"));
 },{"phaser":"E66h","./scenes/GameScene":"nwCc","react-dom":"NKHc","react":"n8MK","../ui/components/App":"avfv"}]},{},["Pu5h"], null)
-//# sourceMappingURL=/main.2e52543d.js.map
+//# sourceMappingURL=https://troels.github.io/spot-me-up/main.2e52543d.js.map
